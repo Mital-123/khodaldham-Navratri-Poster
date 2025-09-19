@@ -1,107 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blood Post</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blood Post</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="posterfile.css" />
+  </head>
 
-  <link rel="stylesheet" href="posterfile.css">
-</head>
+  <body>
+    <div class="bgbckcolor">
+      <div class="container py-3">
+        <div class="row m-0 p-0">
+          <div class="col-12 col-lg-4 shadow my-2 my-lg-0 py-3 py-lg-0">
+            <div class="wrapper" id="cropimage">
+              <div class="fs-1 fw-bold" style="color: #990000">
+                વિરાંજલી મહારકતદાન શિબિર
+              </div>
+              <div class="fs-4 fw-bold pt-3">Enter Your Details !!!</div>
 
+              <button
+                type="button"
+                class="btn border-0 w-100 p-0 mt-3"
+                data-bs-toggle=""
+                data-bs-target="#staticBackdrop"
+              >
+                <input
+                  type="file"
+                  id="file"
+                  accept="image/*"
+                  class="bgcolor w-100"
+                />
+                <label for="file">Choose A Photo</label>
+              </button>
 
-
-<body>
-  <div class="bgbckcolor">
-    <div class="container py-3">
-      <div class="row m-0 p-0">
-        <div class="col-12 col-lg-4 shadow my-2 my-lg-0 py-3 py-lg-0">
-          <div class="wrapper " id="cropimage">
-            <div class="fs-1 fw-bold " style="color: #990000;">વિરાંજલી મહારકતદાન શિબિર</div>
-            <div class="fs-4 fw-bold pt-3">Enter Your Details !!!</div>
-
-            <button type="button" class="btn border-0 w-100 p-0 mt-3" data-bs-toggle=""
-              data-bs-target="#staticBackdrop">
-              <input type="file" id="file" accept="image/*" class="bgcolor w-100 " />
-              <label for="file">Choose A Photo</label>
-            </button>
-
-            <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1"
-              aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-
-                  <div class="modal-body">
-                    <div class="containercropper">
-                      <div class="image-container">
-                        <img id="image" />
+              <div
+                class="modal fade"
+                id="staticBackdrop"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+              >
+                <div
+                  class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                >
+                  <div class="modal-content">
+                    <div class="modal-body">
+                      <div class="containercropper">
+                        <div class="image-container">
+                          <img id="image" />
+                        </div>
+                        <div class="preview-container">
+                          <img id="preview-image" />
+                        </div>
                       </div>
-                      <div class="preview-container">
-                        <img id="preview-image" />
+                      <div class="options hide">
+                        <input
+                          type="number"
+                          id="height-input"
+                          placeholder="Enter Height"
+                          max="350px"
+                        />
+                        <input
+                          type="number"
+                          id="width-input"
+                          placeholder="Enter Width"
+                          max="350px"
+                        />
+                      </div>
+                      <div class="btns">
+                        <button
+                          id="preview"
+                          class="hide bgcolor text-white border-0 rounded-2 p-2 px-3 bg-success"
+                        >
+                          Preview
+                        </button>
+                        <button
+                          class="btn btn-danger hide p-1 px-3"
+                          id="doneimage"
+                          onclick="loadImage()"
+                        >
+                          <span class="fs-5 pe-1" data-bs-dismiss="modal"
+                            ><i class="fa-solid fa-thumbs-up"></i></span
+                          >Set Image
+                        </button>
+                      </div>
+                      <div class="text-center">
+                        <button
+                          type="button"
+                          class="btn-close bg-secondary-subtle rounded-circle p-3 mt-2"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
                       </div>
                     </div>
-                    <div class="options hide">
-                      <input type="number" id="height-input" placeholder="Enter Height" max="350px" />
-                      <input type="number" id="width-input" placeholder="Enter Width" max="350px" />
-                    </div>
-                    <div class="btns">
-                      <button id="preview"
-                        class="hide bgcolor text-white border-0 rounded-2 p-2 px-3 bg-success">Preview</button>
-                      <button class="btn btn-danger hide p-1 px-3" id="doneimage" onclick="loadImage()"><span
-                          class="fs-5 pe-1" data-bs-dismiss="modal"><i class="fa-solid fa-thumbs-up"></i></span>Set
-                        Image</button>
-                    </div>
-                    <div class="text-center"><button type="button"
-                        class="btn-close bg-secondary-subtle rounded-circle p-3 mt-2" data-bs-dismiss="modal"
-                        aria-label="Close"></button></div>
                   </div>
-
                 </div>
               </div>
             </div>
+            <div class="my-2">
+              <input
+                type="text"
+                id="text-input"
+                placeholder="Enter Your Name"
+                class="form-control w-100 p-w"
+                maxlength="18"
+                oninput="renderText()"
+              />
+            </div>
+            <span id="name-error" class="text-danger"
+              >Maximum 18 characters allow !</span
+            >
 
+            <div class="text-center mt-4">
+              <button
+                id="download-button"
+                class="btn px-5 fs-5 fw-bold w-100"
+                onclick="downloadImage()"
+              >
+                <span class="fs-5 pe-1"
+                  ><i class="fa-solid fa-file-arrow-down"></i
+                ></span>
+                Download
+              </button>
+            </div>
           </div>
-          <div class="my-2 ">
-            <input type="text" id="text-input" placeholder="Enter Your Name" class="form-control w-100 p-w"
-              maxlength="18" oninput="renderText()" />
-          </div>
-          <span id="name-error" class="text-danger ">Maximum 18 characters allow !</span>
-
-
-          <div class=" text-center mt-4">
-            <button id="download-button" class="btn px-5 fs-5 fw-bold w-100" onclick="downloadImage()">
-              <span class="fs-5 pe-1"><i class="fa-solid fa-file-arrow-down"></i></span>
-              Download
-            </button>
-          </div>
-        </div>
-        <div class="col-12 col-lg-8 shadowclass my-2 my-lg-0 py-3 py-lg-0">
-
-          <div id="canvas-container " class="pt-0 shadow">
-            <canvas id="canvas" width="1080" height="1350" class="img-fluid"></canvas>
-            <img src="./shared image.jpeg" class="img-fluid w-100" alt="" id="static-image" />
-            <img src="" alt="" id="uploaded-image" />
-            <div id="canvas-text"></div>
+          <div class="col-12 col-lg-8 shadowclass my-2 my-lg-0 py-3 py-lg-0">
+            <div id="canvas-container " class="pt-0 shadow">
+              <canvas
+                id="canvas"
+                width="1080"
+                height="1350"
+                class="img-fluid"
+              ></canvas>
+              <img
+                src="./NAVRATRI 2025 PHOTO FRAME.png"
+                class="img-fluid w-100"
+                alt=""
+                id="static-image"
+              />
+              <img src="" alt="" id="uploaded-image" />
+              <div id="canvas-text"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-
-
-  
-  <script src="poster.js" ></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
-</body>
-
+    <script src="poster.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
