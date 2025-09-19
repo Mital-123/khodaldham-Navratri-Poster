@@ -118,6 +118,12 @@ function loadImage(imageSrc) {
 document.querySelector('.btn-danger').addEventListener('click', function () {
     const previewSrc = document.getElementById('preview-image').src;
     loadImage(previewSrc);
+
+    const modalEl = document.getElementById('staticBackdrop');
+    const modalInstance = bootstrap.Modal.getInstance(modalEl);
+    if (modalInstance) {
+        modalInstance.hide();
+    }
 });
 
 function renderText() {
