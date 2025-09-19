@@ -9,6 +9,26 @@ const heightInput = document.getElementById("height-input");
 let cropper = "";
 let fileName = "";
 
+// 🔹 helper to draw rounded image on canvas
+function drawRoundedImage(ctx, img, x, y, w, h, r) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    ctx.clip();
+
+    ctx.drawImage(img, x, y, w, h);
+    ctx.restore();
+}
+
 fileInput.onchange = () => {
     previewImage.src = "";
     heightInput.value = 340;
@@ -27,7 +47,7 @@ fileInput.onchange = () => {
                 cropper.replace(imagecrop.getAttribute('src'));
             } else {
                 cropper = new Cropper(imagecrop, {
-                    aspectRatio: 340 / 339, // Update with the aspect ratio
+                    aspectRatio: 340 / 339,
                     autoCropArea: 1,
                     viewMode: 2,
                 });
@@ -36,7 +56,6 @@ fileInput.onchange = () => {
 
         options.classList.remove("hide");
         previewButton.classList.remove("hide");
-        // doneimageButton.classList.remove("hide");
         const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
         modal.show();
     };
@@ -56,24 +75,22 @@ widthInput.addEventListener("input", () => {
 previewButton.addEventListener("click", (e) => {
     e.preventDefault();
 
-    let imgSrc = cropper.getCroppedCanvas({}).toDataURL();
     let resizedCanvas = document.createElement("canvas");
     resizedCanvas.width = 340;
     resizedCanvas.height = 339;
 
     resizedCanvas.getContext("2d").drawImage(cropper.getCroppedCanvas({}), 0, 0, 340, 339);
     previewImage.src = resizedCanvas.toDataURL();
-    previewImage.style.borderRadius = "20px";
+    previewImage.style.borderRadius = "20px"; // ✅ preview with rounded corners
     doneimageButton.style.display = "block"
 });
 
 window.onload = () => {
     options.classList.add("hide");
     previewButton.classList.add("hide");
-
-    // doneimageButton.classList.remove("hide");
 };
 
+// 🔹 Load image into canvas with rounded corners
 function loadImage(imageSrc) {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -82,34 +99,11 @@ function loadImage(imageSrc) {
 
     const img = new Image();
     img.onload = function () {
-        // Draw frame background
+        // Draw frame
         ctx.drawImage(staticImage, 0, 0, canvas.width, canvas.height);
 
-        // Rounded rectangle position + size
-        const x = 638;
-        const y = 766;
-        const w = 330;
-        const h = 331;
-        const r = 20; // ✅ 20px border radius
-
-        // Rounded rectangle clipping
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(x + r, y);
-        ctx.lineTo(x + w - r, y);
-        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-        ctx.lineTo(x + w, y + h - r);
-        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-        ctx.lineTo(x + r, y + h);
-        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-        ctx.lineTo(x, y + r);
-        ctx.quadraticCurveTo(x, y, x + r, y);
-        ctx.closePath();
-        ctx.clip();
-
-        // Draw image inside rounded rectangle
-        ctx.drawImage(img, x, y, w, h);
-        ctx.restore();
+        // Draw uploaded image with rounded corners
+        drawRoundedImage(ctx, img, 638, 766, 330, 331, 20);
 
         uploadedImage.src = img.src;
         staticImage.style.display = "none";
@@ -121,10 +115,8 @@ function loadImage(imageSrc) {
     document.getElementById("text-input").style.display = "inline-block";
 }
 
-
 document.querySelector('.btn-danger').addEventListener('click', function () {
     const previewSrc = document.getElementById('preview-image').src;
-
     loadImage(previewSrc);
 });
 
@@ -143,37 +135,29 @@ function renderText() {
     const uploadedImage = document.getElementById("uploaded-image");
     const staticImage = document.getElementById("static-image");
 
-    // Clear previous text
+    // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw the static image
+    // Draw static frame
     ctx.drawImage(staticImage, 0, 0, canvas.width, canvas.height);
 
-    // Draw the uploaded image
-    ctx.drawImage(uploadedImage, 638, 766, 330, 331);
+    // Draw uploaded image with radius (if exists)
+    if (uploadedImage.src) {
+        drawRoundedImage(ctx, uploadedImage, 638, 766, 330, 331, 20);
+    }
 
-    // Set font style and position
+    // Draw text
     ctx.font = "bold 35px Arial";
     ctx.fillStyle = "white";
 
     if (textInput.length <= 8) {
-        const textX = 755; // X coordinate
-        const textY = 1148; // Y coordinate
-        ctx.fillText(capitalize(textInput), textX, textY);
+        ctx.fillText(capitalize(textInput), 755, 1148);
     } else if (textInput.length <= 9) {
-        const textX = 750; // X coordinate
-        const textY = 1148; // Y coordinate
-        ctx.fillText(capitalize(textInput), textX, textY);
+        ctx.fillText(capitalize(textInput), 750, 1148);
     } else if (textInput.length <= 15) {
-        const textX = 630; // X coordinate
-        const textY = 1148; // Y coordinate
-        ctx.fillText(capitalize(textInput), textX, textY);
-    }
-    else {
-        // Adjust these coordinates to position the text over the image correctly
-        const textX = 650; // X coordinate
-        const textY = 1148; // Y coordinate
-        ctx.fillText(capitalize(textInput), textX, textY);
+        ctx.fillText(capitalize(textInput), 630, 1148);
+    } else {
+        ctx.fillText(capitalize(textInput), 650, 1148);
     }
 
     const nameError = document.getElementById("name-error");
