@@ -82,8 +82,35 @@ function loadImage(imageSrc) {
 
     const img = new Image();
     img.onload = function () {
+        // Draw frame background
         ctx.drawImage(staticImage, 0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 638, 766, 330, 331);
+
+        // Rounded rectangle position + size
+        const x = 638;
+        const y = 766;
+        const w = 330;
+        const h = 331;
+        const r = 20; // ✅ 20px border radius
+
+        // Rounded rectangle clipping
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+        ctx.clip();
+
+        // Draw image inside rounded rectangle
+        ctx.drawImage(img, x, y, w, h);
+        ctx.restore();
+
         uploadedImage.src = img.src;
         staticImage.style.display = "none";
         staticImage.style.objectFit = "cover";
@@ -93,6 +120,7 @@ function loadImage(imageSrc) {
     canvas.style.display = "inline-block";
     document.getElementById("text-input").style.display = "inline-block";
 }
+
 
 document.querySelector('.btn-danger').addEventListener('click', function () {
     const previewSrc = document.getElementById('preview-image').src;
@@ -137,13 +165,13 @@ function renderText() {
         const textY = 1148; // Y coordinate
         ctx.fillText(capitalize(textInput), textX, textY);
     } else if (textInput.length <= 15) {
-        const textX = 700; // X coordinate
+        const textX = 630; // X coordinate
         const textY = 1148; // Y coordinate
         ctx.fillText(capitalize(textInput), textX, textY);
     }
     else {
         // Adjust these coordinates to position the text over the image correctly
-        const textX = 700; // X coordinate
+        const textX = 650; // X coordinate
         const textY = 1148; // Y coordinate
         ctx.fillText(capitalize(textInput), textX, textY);
     }
@@ -161,11 +189,8 @@ function downloadImage() {
     const dataURL = canvas.toDataURL("image/png");
     const a = document.createElement("a");
     a.href = dataURL;
-    a.download = "viranjaliblood-donation.png";
+    a.download = "Khodaldham-Navratri.png";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
 }
-
-
-
